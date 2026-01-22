@@ -44,6 +44,23 @@ jobs:
       - name: Rush build
         run: rush build
 
+      - name: Verify version scripts
+        run: |
+          echo "=== Version Verification ==="
+          echo "version.txt: $(cat common/scripts/version.txt)"
+          echo "show_tag.js: $(node common/scripts/show_tag.js)"
+          echo "show_version.js: $(node common/scripts/show_version.js)"
+          echo "git describe: $(git describe --tags --abbrev=0 || echo 'FAILED')"
+
+          # Fail fast if versions don't match
+          TAG_VER=$(node common/scripts/show_tag.js)
+          MODEL_VER=$(node common/scripts/show_version.js)
+          if [ "$TAG_VER" != "$MODEL_VER" ]; then
+            echo "ERROR: Version mismatch! TAG=$TAG_VER MODEL=$MODEL_VER"
+            exit 1
+          fi
+          echo "Versions match: $TAG_VER"
+
       - name: Get Huly version
         id: huly_version
         run: |
