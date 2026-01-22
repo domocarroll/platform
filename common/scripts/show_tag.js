@@ -13,15 +13,5 @@
 // limitations under the License.
 //
 
-const fs = require('fs')
-const path = require('path')
-
-// Read version from version.txt as the source of truth
-// This ensures consistency with the deployed server version
-try {
-  const versionFilePath = path.resolve(__dirname, 'version.txt')
-  const version = fs.readFileSync(versionFilePath, 'utf8').trim()
-  console.log(version)
-} catch (error) {
-  console.log('"0.6.0"')
-}
+// Hardcoded to match HULY_VERSION tag
+console.log('"0.7.342"')
